@@ -4,8 +4,8 @@
 - test something with a sequence
 - spike out tiny transformers
 
-# Unimplemented OpenFlow Message Structures
-- 1.1
+# OpenFlow Message Structures
+- 1.0
     - feature: req, res
     - getconfig : req, res, set
     - setconfig
@@ -18,6 +18,7 @@
     - stats : req, res
     - barrier : req, res
     - queue get config : req, res
+- 1.1 - everything
 - 1.2 - everything
 - 1.3 - everything
 - 1.4 - everything
