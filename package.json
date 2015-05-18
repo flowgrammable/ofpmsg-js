@@ -1,0 +1,22 @@
+{
+  "name": "ofpmsg-js",
+  "version": "0.0.1",
+  "description": "OpenFlow message javascript library",
+  "main": "index.js",
+  "scripts": {
+    "test": "grunt test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/flowgrammable/ofpmsg-js.git"
+  },
+  "author": "Jasson Casey",
+  "license": "APL 2.0",
+  "bugs": {
+    "url": "https://github.com/flowgrammable/ofpmsg-js/issues"
+  },
+  "homepage": "https://github.com/flowgrammable/ofpmsg-js",
+  "dependencies": {
+    "underscore": "^1.8.3"
+  }
+}
