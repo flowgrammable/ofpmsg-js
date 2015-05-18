@@ -3,6 +3,8 @@
 'use strict';
 
 var ofp = require('../lib/index');
+var view = ofp.view;
+console.log(view);
 
 describe('No throw tests', function() {
 
@@ -52,7 +54,13 @@ describe('No throw tests', function() {
 describe('fromView tests', function() {
   
   it('OFP 1.0', function() {
-    //FIXME
+
+    var msg = ofp["1.0"];
+    var hello = msg.Hello();
+    var v = new view.View(new Buffer(1024));
+    hello.toView(v);
+    v.reset();
+    var m1 = msg.fromView(v);
   });
 
   it('OFP 1.1', function() {
