@@ -2,7 +2,7 @@
   "name": "ofpmsg-js",
   "version": "0.0.1",
   "description": "OpenFlow message javascript library",
-  "main": "index.js",
+  "main": "lib/index.js",
   "scripts": {
     "test": "grunt test"
   },
@@ -18,5 +18,10 @@
   "homepage": "https://github.com/flowgrammable/ofpmsg-js",
   "dependencies": {
     "underscore": "^1.8.3"
+  },
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-jshint": "^0.11.2",
+    "jshint": "^2.7.0"
   }
 }
