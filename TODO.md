@@ -1,7 +1,7 @@
 # Tactical TODOs
-- exceptions for fromView failure
 - partial fromView at message level
-- test something with a sequence
+- exceptions for fromView failure
+- test something with a Sequence
 - spike out tiny transformers
 
 # OpenFlow Message Structures
