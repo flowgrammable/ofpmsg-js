@@ -4,7 +4,6 @@
 
 var ofp = require('../lib/index');
 var view = ofp.view;
-console.log(view);
 
 describe('No throw tests', function() {
 
@@ -57,10 +56,14 @@ describe('fromView tests', function() {
 
     var msg = ofp["1.0"];
     var hello = msg.Hello();
-    var v = new view.View(new Buffer(1024));
+    var b = new Buffer(16);
+    b.fill(0);
+    var v = new view.View(b);
     hello.toView(v);
     v.reset();
     var m1 = msg.fromView(v);
+    v.reset();
+    var m2 = ofp.msg.fromView(v);
   });
 
   it('OFP 1.1', function() {
