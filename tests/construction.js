@@ -53,17 +53,25 @@ describe('No throw tests', function() {
 describe('fromView tests', function() {
   
   it('OFP 1.0', function() {
-
-    var msg = ofp["1.0"];
-    var hello = msg.Hello();
     var b = new Buffer(16);
     b.fill(0);
     var v = new view.View(b);
+
+    var msg = ofp["1.0"];
+    var hello = msg.Error({ type: 1, code: 2 });
     hello.toView(v);
+
     v.reset();
     var m1 = msg.fromView(v);
     v.reset();
     var m2 = ofp.msg.fromView(v);
+    v.reset();
+    var m3 = ofp.msg.fromView(v, msg.VERSION);
+
+    console.log(hello);
+    console.log(m1);
+    console.log(m2);
+    console.log(m3);
   });
 
   it('OFP 1.1', function() {
