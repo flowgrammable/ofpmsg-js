@@ -61,6 +61,8 @@ describe('fromView tests', function() {
     var hello = msg.Error({ type: 1, code: 2 });
     hello.toView(v);
 
+    console.log(v);
+
     v.reset();
     var m1 = msg.fromView(v);
     v.reset();
