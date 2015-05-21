@@ -53,15 +53,13 @@ describe('No throw tests', function() {
 describe('fromView tests', function() {
   
   it('OFP 1.0', function() {
-    var b = new Buffer(16);
+    var b = new Buffer(32);
     b.fill(0);
     var v = new view.View(b);
 
     var msg = ofp["1.0"];
-    var hello = msg.Error({ type: 1, code: 2 });
+    var hello = msg.Error({ type: 1, code: 2, data: 'blah blah blah' });
     hello.toView(v);
-
-    console.log(v);
 
     v.reset();
     var m1 = msg.fromView(v);
