@@ -62,16 +62,15 @@ describe('fromView tests', function() {
     hello.toView(v);
 
     v.reset();
+    // Version specific fromView
     var m1 = msg.fromView(v);
     v.reset();
+    // General fromView
     var m2 = ofp.msg.fromView(v);
     v.reset();
+    // General fromView with version called out
     var m3 = ofp.msg.fromView(v, msg.VERSION);
 
-    console.log(hello);
-    console.log(m1);
-    console.log(m2);
-    console.log(m3);
   });
 
   it('OFP 1.1', function() {
