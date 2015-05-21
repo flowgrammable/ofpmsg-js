@@ -1,4 +1,4 @@
-# ofpmsg-js
+# OpenFlow Message Library *-js*
 This is a library for manipulating OpenFlow messages. It provides basic
 facilities for message construction from sockets, files, or user programs. The
 library establishes a basic set of patterns for Type Length Value (TLV) message
