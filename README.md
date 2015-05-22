@@ -50,6 +50,8 @@ var msg1_2 = ofp["1.2"].fromView(view);
 - Message - generic OpenFlow message type
 - Data - wrapper for arbitrary uninterpreted data
 - *Payloads* - version specific OpenFlow payload types
+- ethernet.MAC - ethernet MAC address type
+- ipv4.Address - IPv4 address type
 
 ## Functions Supported
 - header.bytes() - return the size in bytes of a header
