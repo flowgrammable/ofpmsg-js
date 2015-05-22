@@ -283,6 +283,45 @@ var hello = util.fromView(Hello, view);
 ```
 
 #### makeIndex(Type)
+This is a builder function used by every OpenFlow versioned payload module to
+export a map of payload type values to payload Types. This map is a necessary
+input for generic message construction over any version of OpenFlow. In order
+for the map to work, each Type (Hello, Error, etc.) must export a Type value. As
+long as a payload type is built using the `makePayload` helper and a type value
+is supplied, this property will hold.
 
-#### Variant(Index)
+```
+// constructs a map of the payload types
+var map = util.makeIndex([
+  Hello,
+  Error,
+  ...
+]);
+
+// Resultant object
+// {
+//   "0": Hello,
+//   "1": Error,
+//   ...
+// }
+```
+
+#### Variant(Map)
+This is a helper function that builds a function object for the construction of
+variant types. The input to the function is a Map from a type string to a Type.
+The returned value is a function that takes a type value and view and will
+construct and deserialize the appropriate Type at runtime.
+
+```
+// Construct a variant over a map of payload types
+var variant = util.Variant({
+  "0": Hello,
+  "1": Error,
+  ...
+});
+// Deserialize a header
+var hdr = util.fromView(Header, view);
+// Execute the variant deserializer based on input form the header
+var payload = variant(hdr.type, view);
+```
 
