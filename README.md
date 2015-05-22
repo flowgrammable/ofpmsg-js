@@ -183,10 +183,58 @@ if(view.available() < bytes()) { ...
 ```
 
 ### Message
+This is a generic encapsulation for any OpenFlow message. It includes a header
+an payload property, where the header is constant regardless of verison of
+OpenFlow but the payload varies according to version.
 
 #### Construction
+The constrution interfaces supplied are fairly flexible. A user can just supply
+payloads and headers will be automatically constructed. Or the user can supply
+headers and payloads in construction. Construction from views is possible in a
+restricted and unrestricted fashion. You can construct from a view to any
+version supported by the library, or indicate that construction should be
+limited to a particular protocol
+
+```
+// Construct a message with the supplied payload, determine the header
+var msg = Message({
+  payload: ofp1_0.Hello()
+});
+
+// Construct a message with the supplied header and payload
+var msg = Message({
+  header:  hdr.Header(...),
+  payload: ofp1_0.Hello()
+});
+
+// construct a default message and then deserialize from a view
+var msg = Message();
+msg.fromView(view);
+
+// Construct a default message, deserialize from a view, but restrict payload
+// type construction to OpenFlow 1.0
+var msg = Message();
+msg.fromView(view, 1);
+
+// Construct a message from a view
+var msg = fromView(view);
+
+// Construct a message from a view, but restrict construction to OpenFlow 1.0
+var msg = fromView(view, 1);
+```
 
 #### Operations
+The operations provided are limited to supporting serialization/deserialization.
+
+```
+// Determine the current size in bytes of a message
+if(view.available() < msg.bytes()) {
+  throw 'Not enough bytes in view';
+}
+// Serialize the message to the view
+msg.toView(view);
+
+```
 
 ### Data
 The Data type is a simple base class for message payloads that wish to carry
