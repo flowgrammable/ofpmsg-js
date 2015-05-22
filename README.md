@@ -25,7 +25,6 @@ generators, controllers, or switch-agents.
 - View - memory abstraction for serialization/deserialization
 - Header - openflow header type
 - Message - generic OpenFlow message type
-- View - memory abstraction for serialization/deserialization
 - Data - wrapper for arbitrary uninterpreted data
 - *Payloads* - version specific OpenFlow payload types
 
@@ -168,6 +167,9 @@ console.log(hdr.toString());
 ```
 
 #### Functions
+The header module only exports one function, which returns the number of bytes
+required by a header for serialization/deserialization. This is a constant
+expression as the header is a fixed block of fields.
 
 ```
 // Determine if the view has enough space for a Header
@@ -181,9 +183,42 @@ if(view.available() < bytes()) { ...
 #### Operations
 
 ### Data
+The Data type is a simple base class for message payloads that wish to carry
+uninterpreted data. A typical pattern in OpenFlow payload types is to allow for
+arbitrary byte arrays to postfix any payload type. This mechanisms allows for a
+standard way of passing non-standard data in almost any message type. Several
+OpenFlow message types will inherit from this type. Uninterpreted data is stored
+as a byte array usign the `Buffer` type.
 
 #### Construction
+Data can be constructed explicitly for sending and recieving uninterpreted byte
+arrays. Most payload types that use the `Data` type will inherit from `Data` and
+call the super toView/fromView at the end of their toView/fromView
+implementations.
+
+```
+// Construct an empty data set
+var data = new Data();
+
+// Construct a data set from a utf8 encoding of a string
+var data = new Data('asdfasdfasdf');
+
+// Construct a data set from a Buffer
+var data = new Data(new Buffer(100));
+```
 
 #### Operations
+This type only exposed a few operations for: determining byte size,
+serizliation, and deserialization.
 
+```
+// Determine if enough bytes are available to serialize the data set
+if(view.available() < data.bytes()) { ...
+
+// Deserialize a data set from a view
+data.fromView(view);
+
+// Serialize a data set to a view
+data.toView(view);
+```
 
