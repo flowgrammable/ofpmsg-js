@@ -22,15 +22,12 @@ generators, controllers, or switch-agents.
     - Execute unit tests - ```grunt```
 
 ## Types Supported
+- View - memory abstraction for serialization/deserialization
 - Message - generic OpenFlow message type
 - Header - openflow header type
 - View - memory abstraction for serialization/deserialization
 - Data - wrapper for arbitrary uninterpreted data
 - *Payloads* - version specific OpenFlow payload types
-
-## Operations Supported
-- one
-- two
 
 ## Functions Supported
 - one
@@ -39,4 +36,33 @@ generators, controllers, or switch-agents.
 ## Exceptions Generated
 - one
 - two
+
+### View
+
+#### Construction
+
+#### Operations
+
+#### Construction
+
+#### Operations
+
+### Header
+
+#### Construction
+
+#### Operations
+
+### Message
+
+#### Construction
+
+#### Operations
+
+### Data
+
+#### Construction
+
+#### Operations
+
 
