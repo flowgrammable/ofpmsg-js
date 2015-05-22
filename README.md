@@ -30,12 +30,9 @@ generators, controllers, or switch-agents.
 - *Payloads* - version specific OpenFlow payload types
 
 ## Functions Supported
-- one
-- two
+- header.bytes()
 
 ## Exceptions Generated
-- one
-- two
 
 ### View
 This type is a simple abstraction that wraps a memory object. In javascript this
@@ -121,10 +118,61 @@ view.write(buffer);
 ```
 
 ### Header
+The OpenFlow header does not change across versions of the protocol. A header
+includes a version (uint8), type (uint8), length (uint16), and transaction id 
+(uint32). All multi-byte unsigned integers are in Most Significant Byte First
+(MSBF) order. A header's length indicates the number of bytes in an OpenFlow
+message with is inclusive of the header and the message payload. A valid header
+must have a length field with at least 8 bytes.
 
 #### Construction
+There are two ways of constructing a header: from terms by a programmer, or
+through deserialization of a view.
+
+```
+// Construct a default state header and deserialize
+var hdr = Header();
+hdr.fromView(view);
+
+// Construct a header given named terms
+var hdr = Header({
+  version: 1,
+  type: 1,
+  length: 8,
+  xid: 1
+});
+ 
+// Construct a header from a view
+var hdr = fromView(view);
+```
 
 #### Operations
+Header operations support: serilaization, deserialization, validity checking,
+and string representation.
+
+```
+// Determine if the header is valid (length >= bytes of the header)
+if(hdr.isValid()) { ...
+
+// Determine how many bytes the header consumes in a view
+if(view.available() < hdr.bytes()) { ...
+
+// Deserialize a view into a header
+hdr.fromView(view);
+
+// Serilaize a header into a view
+hdr.toView(view);
+
+// Print a string representaiton of the header
+console.log(hdr.toString());
+```
+
+#### Functions
+
+```
+// Determine if the view has enough space for a Header
+if(view.available() < bytes()) { ...
+```
 
 ### Message
 
