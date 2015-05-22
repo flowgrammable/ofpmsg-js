@@ -11,11 +11,11 @@ generators, controllers, or switch-agents.
 ### Sample Usage
 ```
 // import the library
-var ofpmsg = require('ofpmsg-js');
+var ofp = require('ofpmsg-js');
 
 // import some symbols into easier local names
-var view   = ofpmsg.view;
-var ofp1_2 = ofpmsg["1.2"];
+var view   = ofp.view;
+var ofp1_2 = ofp["1.2"];
 
 // Construct a version specific message and serialize
 var error = ofp1_2.Error({ type: 1, code: 2, data: 'This is wrong' });
@@ -26,13 +26,13 @@ error.toView(v);
 v.reset();
 
 // Deserialize the view to any version of OpenFlow
-var msg = ofpmsg.fromView(view);
+var msg = ofp.msg.fromView(view);
 
 // Reset the view so we can deserialize ... useful for testing :)
 v.reset();
 
 // Deserialize the view to version 1.2 of OpenFlow
-var msg1_2 = ofpmsg["1.2"].fromView(view);
+var msg1_2 = ofp["1.2"].fromView(view);
 ```
 
 ### Development Setup
