@@ -16,7 +16,6 @@
     - flow mod
     - port mod
     - stats : req, res
-    - barrier : req, res
     - queue get config : req, res
 - 1.1 - everything
 - 1.2 - everything
