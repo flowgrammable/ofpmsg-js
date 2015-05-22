@@ -29,9 +29,15 @@ generators, controllers, or switch-agents.
 - *Payloads* - version specific OpenFlow payload types
 
 ## Functions Supported
-- header.bytes()
+- header.bytes() - return the size in bytes of a header
+- util.makePayload(Class, type, Base) - builds OpenFlow payload types
+- util.makeIndex(Type) - builds an object map from header.type to payload Type
+- util.fromView(Type, view) - constructs a Type, calls fromView and returns obj
+- util.Variant(Index) - builds a variant transformer given a type-Type map
 
 ## Exceptions Generated
+- Available
+- Undefined
 
 ### View
 This type is a simple abstraction that wraps a memory object. In javascript this
@@ -221,4 +227,62 @@ data.fromView(view);
 // Serialize a data set to a view
 data.toView(view);
 ```
+
+### Functions
+
+#### makePayload(Class, type, Base)
+All OpenFlow payload types must have their OpenFlow header type value associated
+with their object definition. Some OpenFlow payloads allow for uninterpreted
+data to postfix the payload values, which allows for a standard way of passing
+non-standard data in any message sequence. The `Data` type provides for this
+generic uninterpreted data behavior. This is a helper function for assigning the
+header type value, and sometimes inheriting from a Base object prototype, for
+all OpenFlow payload type definitions.
+
+```
+// Import the Data type
+var dt = require('./data');
+var util = require('./util');
+
+// Construct a new payload type
+function Hello(data) {
+  ...
+  // Call the base class constructor
+  dt.Data.call(this, data);
+}
+// Establish its header type value of '0' and inherit from Data
+util.makePayload(Hello, 0, dt.Data);
+
+function Error(type, code, data) {
+  this.type = ...;
+  this.code = ...;
+  // Call the base class constructor
+  dt.Data.call(this, data);
+}
+// Establish its header type value of '1' and inherit from Data
+util.makePayload(Hello, 1, dt.Data);
+
+Error.prototype.fromView = function(view) {
+  // Perform error field deserialization
+  ...
+  // Call the base class deserializer
+  dt.Data.prototype.fromView.call(this, view);
+};
+```
+
+#### fromView(Type, view)
+This is a simple helper function that constructs a default object of `Type`,
+immediately calls the `fromView` deserialization operation on that object, and
+then returns the object. This pattern can be quite useful for cutting down on
+code verbosity.
+
+```
+var msg = util.fromView(Message, view);
+var hdr = util.fromView(Header, view);
+var hello = util.fromView(Hello, view);
+```
+
+#### makeIndex(Type)
+
+#### Variant(Index)
 
