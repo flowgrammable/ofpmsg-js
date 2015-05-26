@@ -1,9 +1,10 @@
 (function() {
-  
+var expect = require('expect.js');
 'use strict';
 
 var ofp = require('../lib/index');
 var view = ofp.view;
+var Message = ofp.msg;
 
 describe('No throw tests', function() {
 
@@ -58,12 +59,15 @@ describe('fromView tests', function() {
     var v = new view.View(b);
 
     var msg = ofp["1.0"];
-    var hello = msg.Error({ type: 1, code: 2, data: 'blah blah blah' });
-    hello.toView(v);
+    var err = msg.Error({ type: 1, code: 2, data: 'blah blah blah' });
+    err.toView(v);
 
     v.reset();
     // Version specific fromView
     var m1 = msg.fromView(v);
+    expect(m1.payload.type).to.equal(1);
+    expect(m1.payload.code).to.equal(2);
+
     v.reset();
     // General fromView
     var m2 = ofp.msg.fromView(v);
@@ -82,6 +86,9 @@ describe('fromView tests', function() {
   });
 
   it('OFP 1.3', function() {
+    var buf = new Buffer([4, 0, 0, 8, 0, 0, 0, 6]);
+    var v = new view.View(buf);
+    var msg = Message.fromView(v);
     //FIXME
   });
 
