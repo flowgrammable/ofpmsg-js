@@ -1,0 +1,3 @@
+[submodule "tests/openflow-messages"]
+	path = tests/openflow-messages
+	url = git://github.com/flowgrammable/openflow-messages

@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/flowgrammable/ofpmsg-js",
   "dependencies": {
+    "buffer-equal": "0.0.1",
+    "commander": "^2.8.1",
     "uint-js": "0.0.2",
     "underscore": "^1.8.3"
   },

@@ -1,5 +1,5 @@
-(function() {
-var expect = require('expect.js');
+(function(){
+
 'use strict';
 
 var ofp = require('../lib/index');
