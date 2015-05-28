@@ -21,7 +21,7 @@ describe('view', function() {
     var buf = new Buffer(24);
     var v   = new view.View(buf);
     expect(v.available()).to.equal(24);
-    expect(v.constrain(10).available()).to.equal(14);
+    expect(v.constrain(10).available()).to.equal(10);
   });
 
 });
