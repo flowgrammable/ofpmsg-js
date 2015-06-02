@@ -10,7 +10,14 @@
     "type": "git",
     "url": "https://github.com/flowgrammable/ofpmsg-js.git"
   },
-  "author": "Jasson Casey",
+  "author": [
+    {
+      "name": "Jasson Casey"
+    },
+    {
+      "name": "Colton Chojnacki"
+    }
+  ],
   "license": "APL 2.0",
   "bugs": {
     "url": "https://github.com/flowgrammable/ofpmsg-js/issues"
@@ -19,7 +26,7 @@
   "dependencies": {
     "buffer-equal": "0.0.1",
     "commander": "^2.8.1",
-    "uint-js": "0.0.2",
+    "uint-js": "~0.0.2",
     "underscore": "^1.8.3"
   },
   "devDependencies": {

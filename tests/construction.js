@@ -1,5 +1,5 @@
 (function(){
-
+var expect = require('expect.js');
 'use strict';
 
 var ofp = require('../lib/index');
@@ -104,5 +104,25 @@ describe('No throw tests', function() {
   });
 
 }); */
+
+  describe('bytes tests', function(){
+    it('OFP 1.0', function(){
+      var msg = ofp['1.0'];
+      var fr = msg.FeatureReq();
+      expect(fr.header.bytes().value()).to.equal(8);
+      expect(fr.payload.bytes().value()).to.equal(0);
+      expect(fr.bytes().value()).to.equal(8);
+
+      var he = msg.Hello();
+      expect(he.header.bytes().value()).to.equal(8);
+      expect(he.payload.bytes().value()).to.equal(0);
+      expect(he.bytes().value()).to.equal(8);
+      
+      var er = msg.EchoRes();
+      expect(er.header.bytes().value()).to.equal(8);
+      expect(er.payload.bytes().value()).to.equal(0);
+      expect(er.bytes().value()).to.equal(8);
+    });
+  });
 
 })();

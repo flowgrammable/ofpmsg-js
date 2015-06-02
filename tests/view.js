@@ -24,6 +24,24 @@ describe('view', function() {
     expect(v.constrain(10).available()).to.equal(10);
   });
 
+  it('toView', function(){
+    var msg = ofp['1.0'];
+    var fr = msg.FeatureReq();
+    var buf = new Buffer(fr.bytes().value());
+    var v = new view.View(buf);
+    var x = fr.toView(v);
+    expect(v.available()).to.equal(0);
+
+    var he = msg.Hello();
+    var buf2 = new Buffer(he.bytes().value());
+    var v2 = new view.View(buf2);
+    he.toView(v2);
+    
+    var er = msg.EchoRes();
+    var buf3 = new Buffer(he.bytes().value());
+    var v3 = new view.View(buf3);
+    er.toView(v3);
+  });
 });
 
 
