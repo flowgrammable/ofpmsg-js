@@ -12,9 +12,10 @@ var view = ofp.view;
 var Message = ofp.msg;
 
 prog
+  .option('-v, --verbose', 'print buffers')
   .parse(process.argv);
 
-var fileName = process.argv[2];
+var fileName = process.argv[prog.verbose ? 3 : 2];
 if(fs.lstatSync(fileName).isDirectory()){
   var files = fs.readdirSync(fileName);
   _(files).forEach(function(f){
@@ -40,6 +41,10 @@ function test(filePath){
   var msg = Message.fromView(v);
   var v2 = new view.View(new Buffer(file.length));
   msg.toView(v2);
+  if(prog.verbose){
+    console.log('file:  ', v.buffer);
+    console.log('result:', v2.buffer);
+  }
   return bufEq(v2.buffer, file);
 }
 
@@ -47,7 +52,12 @@ function testWrap(fileName, filePath){
   var testType = fileName.split('.')[1];
   var result;
   if(testType === 'pass'){
-    return test(filePath) ? 'pass' : 'fail';
+    try {
+      result = test(filePath) ? 'pass' : 'idk';
+  } catch(e) {
+      result = 'fail';
+ }
+    return result;
   } else {
     //TODO: fail test
     return;

@@ -42,6 +42,18 @@ describe('view', function() {
     var v3 = new view.View(buf3);
     er.toView(v3);
   });
+
+  it('data toView', function(){
+    var buf = new Buffer(24);
+    var v = new view.View(buf);
+    v.read(24);
+    console.log(v.buffer);
+    console.log(buf);
+    expect(v.available()).to.equal(0);
+    var buf2 = new Buffer(24);
+    var v2 = new view.View(buf2);
+    v.write(v2.buffer);
+  });
 });
 
 
