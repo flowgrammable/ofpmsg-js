@@ -2,7 +2,9 @@
 var ofp = require('../lib');
 var uint = require('uint-js');
 var view = ofp.view;
-var a = ofp.action;
+var of1_0 = ofp['1.0'];
+var a = of1_0.ACTION; 
+
 describe('action', function(){
   it('no throw', function(){
     a.Output();

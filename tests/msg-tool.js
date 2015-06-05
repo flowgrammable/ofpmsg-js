@@ -38,11 +38,16 @@ function printResult(file, result){
 function test(filePath){
   var file = fs.readFileSync(filePath); 
   var v = new view.View(file);
+  if(prog.verbose){
+    console.log('file:  ', v.buffer);
+  }
   var msg = Message.fromView(v);
+  if(prog.verbose){
+    console.log(msg);
+  }
   var v2 = new view.View(new Buffer(file.length));
   msg.toView(v2);
   if(prog.verbose){
-    console.log('file:  ', v.buffer);
     console.log('result:', v2.buffer);
   }
   return bufEq(v2.buffer, file);
@@ -52,11 +57,15 @@ function testWrap(fileName, filePath){
   var testType = fileName.split('.')[1];
   var result;
   if(testType === 'pass'){
-    try {
-      result = test(filePath) ? 'pass' : 'idk';
-  } catch(e) {
-      result = 'fail';
- }
+    if(prog.verbose){
+      result = test(filePath) ? 'pass' : 'fail';
+    } else {
+      try {
+        result = test(filePath) ? 'pass' : 'fail';
+      } catch(e) {
+        result = 'fail';
+      }
+    }
     return result;
   } else {
     //TODO: fail test
