@@ -125,4 +125,15 @@ describe('No throw tests', function() {
     });
   });
 
+  describe('Data tests', function(){
+    it('OFP 1.0', function(){
+      var msg = ofp['1.0'];
+      var buf = new Buffer([1,1,0,16,0,0,0,1,0,1,0,1,7,7,7,7]);
+      var v = new view.View(buf);
+      var e = Message.fromView(v);
+      var v2 = new view.View(buf);
+      e.toView(v2);
+    });
+  });
+
 })();

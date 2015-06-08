@@ -10,6 +10,8 @@ var bufEq = require('buffer-equal');
 var ofp  = require('../lib');
 var view = ofp.view;
 var Message = ofp.msg;
+var pass = 0;
+var fail = 0;
 
 prog
   .option('-v, --verbose', 'print buffers')
@@ -23,6 +25,7 @@ if(fs.lstatSync(fileName).isDirectory()){
     var result = testWrap(f, filePath);
     printResult(filePath, result);
   });
+  console.log('Coverage:', pass / (pass + fail));
 } else {
   var filePath = path.join(__dirname, fileName);
   var result = testWrap(fileName, filePath);
@@ -32,6 +35,11 @@ if(fs.lstatSync(fileName).isDirectory()){
 function printResult(file, result){
   if(_(result).isString()){
     console.log(file+'....'+result);
+    if(result === 'pass'){
+      pass += 1;
+    } else {
+      fail += 1;
+    }
   }
 }
 
@@ -43,7 +51,7 @@ function test(filePath){
   }
   var msg = Message.fromView(v);
   if(prog.verbose){
-    console.log(msg);
+    console.log('msg:', msg);
   }
   var v2 = new view.View(new Buffer(file.length));
   msg.toView(v2);
