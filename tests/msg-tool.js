@@ -48,12 +48,14 @@ function test(filePath){
   var v = new view.View(file);
   if(prog.verbose){
     console.log('file:  ', v.buffer);
+    console.log('file length:', file.length);
   }
   var msg = Message.fromView(v);
   if(prog.verbose){
-    console.log('msg:', msg);
+    console.log('msg:', msg.toJSON());
+    console.log('msg bytes(): ', msg.bytes().value());
   }
-  var v2 = new view.View(new Buffer(file.length));
+  var v2 = new view.View(new Buffer(msg.bytes().value()));
   msg.toView(v2);
   if(prog.verbose){
     console.log('result:', v2.buffer);
