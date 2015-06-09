@@ -12,6 +12,59 @@ var Message = ofp.msg;
 
 describe('match', function(){
   describe('1.3', function(){
+    it('tiny construction no mask', function(){
+      var tMatch = [{
+        protocol: 'ethernet',
+        field: 'src',
+        value: {
+          _value: [0, 0, 0, 0, 0, 0],
+          _bytes: 6,
+          _bits: 0
+        }
+      }];
+      var m = new mat.Match();
+      m.fromTiny(tMatch);
+      expect(m.type.toString(16)).to.equal('0x0001');
+      expect(m.length.toString(16)).to.equal('0x000e');
+      expect(m.oxms[0]._class.toString(16)).to.equal('0x8000');
+      expect(m.oxms[0].field.toString(16)).to.equal('0x04');
+      expect(m.oxms[0].hasMask).to.equal(false);
+      expect(m.oxms[0].length.toString(16)).to.equal('0x06');
+      expect(m.bytes().value()).to.equal(16);
+      var buf = new Buffer(m.bytes().value());
+      var v = new view.View(buf);
+      m.toView(v);
+
+    });
+    it('tiny construction mask', function(){
+      var tMatch = [{
+        protocol: 'ethernet',
+        field: 'src',
+        value: {
+          _value: [0, 0, 0, 0, 0, 0],
+          _bytes: 6,
+          _bits: 0
+        },
+        mask: {
+          _value: [1, 1, 1, 1, 1, 1],
+          _bytes: 6,
+          _bits: 0
+       }
+      }];
+      var m = new mat.Match();
+      m.fromTiny(tMatch);
+      expect(m.type.toString(16)).to.equal('0x0001');
+      expect(m.length.toString(16)).to.equal('0x0014');
+      expect(m.oxms[0]._class.toString(16)).to.equal('0x8000');
+      expect(m.oxms[0].field.toString(16)).to.equal('0x04');
+      expect(m.oxms[0].hasMask).to.equal(true);
+      expect(m.oxms[0].length.toString(16)).to.equal('0x0c');
+      expect(m.bytes().value()).to.equal(24);
+      var buf = new Buffer(m.bytes().value());
+      var v = new view.View(buf);
+      m.toView(v);
+
+    });
     it('match struct zero OXM TLVs fromView', function(){
       var buf = new Buffer([
         0, 1, 0, 4,
