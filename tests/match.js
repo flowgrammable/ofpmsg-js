@@ -1,10 +1,14 @@
 (function(){
+var path = require('path');
+var fs = require('fs');
+var bt = require('buffertools');
 var expect = require('expect.js');
 var ofp = require('../lib');
 var uint = require('uint-js');
 var view = ofp.view;
 var ofp1_3 = ofp['1.3'];
 var mat    = ofp1_3.MATCH; 
+var Message = ofp.msg;
 
 describe('match', function(){
   describe('1.3', function(){
@@ -117,6 +121,27 @@ describe('match', function(){
       var v2 = new view.View(b2);
       d.toView(v2);
     });
+   it('packet in', function(){
+     var filePath = path.join(__dirname, 'openflow-messages/v1_3/rep/rep_10_00002.pass');
+     var file = fs.readFileSync(filePath);
+     var v = new view.View(file);
+     expect(v.buffer.length).to.equal(42);
+     var pi = Message.fromView(v);
+     expect(pi.header.version.value()).to.equal(4);
+     expect(pi.payload.match.bytes().value()).to.equal(16);
+     var buf = new Buffer(2);
+     var vt = new view.View(buf);
+     vt.writeUInt16(pi.payload.match.type);
+     var buf2 = new Buffer(2);
+     var vt2 = new view.View(buf2);
+     vt2.writeUInt16(pi.payload.match.length);
+     expect(pi.payload.match.type.toString(16)).to.equal('0x0001');
+
+     var vr = new view.View(new Buffer(pi.bytes().value()));
+     expect(vr.buffer.length).to.equal(42);
+     pi.toView(vr);
+   });
+
   });
 });
 })();

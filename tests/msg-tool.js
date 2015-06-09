@@ -60,7 +60,7 @@ function test(filePath){
   if(prog.verbose){
     console.log('result:', v2.buffer);
   }
-  return bufEq(v2.buffer, file);
+  return bufEq(v2.buffer, v.buffer);
 }
 
 function testWrap(fileName, filePath){
