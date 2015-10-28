@@ -9,7 +9,7 @@ wanting to quickly build OpenFlow based tools: testers, decoders, packet
 generators, controllers, or switch-agents.
 
 ### Sample Usage
-```
+```js
 // import the library
 var ofp = require('ofpmsg-js');
 
@@ -89,7 +89,7 @@ subset of the existing Buffer object. Advance will advance the head pointer by
 the indicated number of bytes, while constrain will reduce the tail pointer to
 be the indicated number of bytes from the head.
 
-```
+```js
 // Construct a new view from a new Buffer
 var view = new View(new Buffer(1024));
 
@@ -109,7 +109,7 @@ serialization/deseriation. Finally, there is an operation `reset` that is useful
 for testing. It allows for serializations to a view, reseting the offset
 pointer, and then deserializing from the same view.
 
-```
+```js
 // Reset the offset pointer to be equal to the head
 view.reset();
 
@@ -159,7 +159,7 @@ must have a length field with at least 8 bytes.
 There are two ways of constructing a header: from terms by a programmer, or
 through deserialization of a view.
 
-```
+```js
 // Construct a default state header and deserialize
 var hdr = Header();
 hdr.fromView(view);
@@ -180,7 +180,7 @@ var hdr = fromView(view);
 Header operations support: serilaization, deserialization, validity checking,
 and string representation.
 
-```
+```js
 // Determine if the header is valid (length >= bytes of the header)
 if(hdr.isValid()) { ...
 
@@ -202,7 +202,7 @@ The header module only exports one function, which returns the number of bytes
 required by a header for serialization/deserialization. This is a constant
 expression as the header is a fixed block of fields.
 
-```
+```js
 // Determine if the view has enough space for a Header
 if(view.available() < bytes()) { ...
 ```
@@ -220,7 +220,7 @@ restricted and unrestricted fashion. You can construct from a view to any
 version supported by the library, or indicate that construction should be
 limited to a particular protocol
 
-```
+```js
 // Construct a message with the supplied payload, determine the header
 var msg = Message({
   payload: ofp1_0.Hello()
@@ -251,7 +251,7 @@ var msg = fromView(view, 1);
 #### Operations
 The operations provided are limited to supporting serialization/deserialization.
 
-```
+```js
 // Determine the current size in bytes of a message
 if(view.available() < msg.bytes()) {
   throw 'Not enough bytes in view';
@@ -275,7 +275,7 @@ arrays. Most payload types that use the `Data` type will inherit from `Data` and
 call the super toView/fromView at the end of their toView/fromView
 implementations.
 
-```
+```js
 // Construct an empty data set
 var data = new Data();
 
@@ -290,7 +290,7 @@ var data = new Data(new Buffer(100));
 This type only exposed a few operations for: determining byte size,
 serizliation, and deserialization.
 
-```
+```js
 // Determine if enough bytes are available to serialize the data set
 if(view.available() < data.bytes()) { ...
 
@@ -312,7 +312,7 @@ generic uninterpreted data behavior. This is a helper function for assigning the
 header type value, and sometimes inheriting from a Base object prototype, for
 all OpenFlow payload type definitions.
 
-```
+```js
 // Import the Data type
 var dt = require('./data');
 var util = require('./util');
@@ -349,7 +349,7 @@ immediately calls the `fromView` deserialization operation on that object, and
 then returns the object. This pattern can be quite useful for cutting down on
 code verbosity.
 
-```
+```js
 var msg = util.fromView(Message, view);
 var hdr = util.fromView(Header, view);
 var hello = util.fromView(Hello, view);
@@ -363,7 +363,7 @@ for the map to work, each Type (Hello, Error, etc.) must export a Type value. As
 long as a payload type is built using the `makePayload` helper and a type value
 is supplied, this property will hold.
 
-```
+```js
 // constructs a map of the payload types
 var map = util.makeIndex([
   Hello,
@@ -385,7 +385,7 @@ variant types. The input to the function is a Map from a type string to a Type.
 The returned value is a function that takes a type value and view and will
 construct and deserialize the appropriate Type at runtime.
 
-```
+```js
 // Construct a variant over a map of payload types
 var variant = util.Variant({
   "0": Hello,
